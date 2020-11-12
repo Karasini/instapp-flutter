@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-
-import 'login_form_model.dart';
 import 'rest_client.dart';
+import 'login_form_model.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
