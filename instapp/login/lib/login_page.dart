@@ -4,7 +4,10 @@ import 'rest_client.dart';
 import 'login_form_model.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  LoginPage({
+    Key key,
+    VoidCallback onLoginSuccess
+  }) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
