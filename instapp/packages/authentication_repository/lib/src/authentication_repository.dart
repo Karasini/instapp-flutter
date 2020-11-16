@@ -14,10 +14,10 @@ class AuthenticationRepository {
   }
 
   Future<void> logIn({
-    @required String username,
+    @required String email,
     @required String password,
   }) async {
-    assert(username != null);
+    assert(email != null);
     assert(password != null);
 
     await Future.delayed(

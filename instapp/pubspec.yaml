@@ -21,9 +21,14 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_bloc: ^6.1.0
   retrofit:
   json_annotation:
   logger:
+  authentication_repository:
+    path: packages/authentication_repository
+  user_repository:
+    path: packages/user_repository
   flutter:
     sdk: flutter
   login:

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'instapp.dart';
+import 'app.dart';
+import 'package:authentication_repository/authentication_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 void main() {
-  runApp(Instapp());
+  runApp(App(
+    authenticationRepository: AuthenticationRepository(),
+    userRepository: UserRepository(),
+  ));
 }
