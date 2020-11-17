@@ -6,4 +6,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  retrofit:
+  json_annotation:
+  equatable: ^1.2.5
   meta: ^1.1.8
