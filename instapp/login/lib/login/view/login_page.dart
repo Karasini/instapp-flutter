@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:login/authentication_repository/authentication_repository.dart';
 import 'package:login/login/bloc/login_bloc.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {

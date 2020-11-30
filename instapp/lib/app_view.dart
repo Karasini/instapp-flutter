@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instapp/home/home.dart';
 import 'package:instapp/splash/splash.dart';
 import 'package:login/authentication/bloc/authentication_bloc.dart';
-import 'package:authentication_repository/authentication_repository.dart';
+import 'package:login/authentication_repository/authentication_repository.dart';
 import 'package:login/login/login.dart';
 
 

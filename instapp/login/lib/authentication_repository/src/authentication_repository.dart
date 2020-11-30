@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
+@Injectable()
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
 
