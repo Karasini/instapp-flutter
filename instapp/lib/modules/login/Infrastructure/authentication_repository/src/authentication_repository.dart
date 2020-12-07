@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
-@Injectable()
+@singleton
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
 

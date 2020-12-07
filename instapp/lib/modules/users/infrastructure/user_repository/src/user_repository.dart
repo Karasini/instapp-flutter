@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import 'models/models.dart';
 
-@Injectable()
+@singleton
 class UserRepository {
   User _user;
 

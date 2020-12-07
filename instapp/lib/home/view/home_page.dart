@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login/authentication/bloc/authentication_bloc.dart';
+import 'package:instapp/modules/login/application/authentication/authentication.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -17,10 +17,10 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             Builder(
               builder: (context) {
-                final userId = context.select(
-                      (AuthenticationBloc bloc) => bloc.state.user.id,
+                final status = context.select(
+                      (AuthenticationBloc bloc) => bloc.state.status,
                 );
-                return Text('UserID: $userId');
+                return Text('Status: $status');
               },
             ),
             RaisedButton(
