@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
 import 'models/models.dart';
 
+@singleton
 class UserRepository {
   User _user;
 

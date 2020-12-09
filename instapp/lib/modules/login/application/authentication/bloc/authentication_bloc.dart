@@ -1,22 +1,18 @@
 import 'dart:async';
 
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:instapp/modules/login/Infrastructure/authentication_repository/src/authentication_repository.dart';
 import 'package:meta/meta.dart';
-import 'package:user_repository/user_repository.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
-    @required AuthenticationRepository authenticationRepository,
-    @required UserRepository userRepository,
+    @required AuthenticationRepository authenticationRepository
   })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
         _authenticationRepository = authenticationRepository,
-        _userRepository = userRepository,
         super(const AuthenticationState.unknown()) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
           (status) => add(AuthenticationStatusChanged(status)),
@@ -24,7 +20,6 @@ class AuthenticationBloc
   }
 
   final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
   StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
 
   @override
@@ -52,21 +47,9 @@ class AuthenticationBloc
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
-        return user != null
-            ? AuthenticationState.authenticated(user)
-            : const AuthenticationState.unauthenticated();
+        return AuthenticationState.authenticated();
       default:
         return const AuthenticationState.unknown();
-    }
-  }
-
-  Future<User> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser();
-      return user;
-    } on Exception {
-      return null;
     }
   }
 }
