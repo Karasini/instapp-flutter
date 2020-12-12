@@ -5,7 +5,7 @@ import 'package:dio/dio.dart' hide Headers;
 
 part 'rest_client.g.dart';
 
-@RestApi(baseUrl: "http://192.168.109.1:5000/")
+@RestApi(baseUrl: "http://127.0.0.1:5000/")
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
