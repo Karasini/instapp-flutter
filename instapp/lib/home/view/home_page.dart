@@ -1,6 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:instapp/config/di/di.dart';
+import 'package:instapp/modules/app/router.gr.dart';
 import 'package:instapp/modules/login/application/authentication/authentication.dart';
+import 'package:instapp/modules/login/domain/repository/auth_repository.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -18,7 +22,7 @@ class HomePage extends StatelessWidget {
             Builder(
               builder: (context) {
                 final status = context.select(
-                      (AuthenticationBloc bloc) => bloc.state.status,
+                      (AuthenticationCubit bloc) => bloc.state.status,
                 );
                 return Text('Status: $status');
               },
@@ -27,8 +31,22 @@ class HomePage extends StatelessWidget {
               child: const Text('Logout'),
               onPressed: () {
                 context
-                    .read<AuthenticationBloc>()
-                    .add(AuthenticationLogoutRequested());
+                    .read<AuthenticationCubit>()
+                    .logout();
+              },
+            ),
+            RaisedButton(
+              child: const Text('Login'),
+              onPressed: () {
+                context
+                    .read<AuthenticationCubit>()
+                    .login();
+              },
+            ),
+            RaisedButton(
+              child: const Text('Go to Login Page'),
+              onPressed: () {
+                ExtendedNavigator.of(context).push(Routes.loginPage, arguments: LoginPageArguments(authRepository: getIt<AuthRepository>()));
               },
             ),
           ],

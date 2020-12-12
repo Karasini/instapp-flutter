@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instapp/home/home.dart';
-import 'package:instapp/splash/splash.dart';
-
-import 'modules/login/Infrastructure/authentication_repository/src/authentication_repository.dart';
+import 'package:instapp/modules/app/router.gr.dart';
+import 'package:logger/logger.dart';
+import 'package:instapp/modules/app/router.gr.dart' as R;
 import 'modules/login/application/authentication/bloc/authentication_bloc.dart';
 import 'modules/login/ui/view/login_page.dart';
+
+var logger = Logger();
 
 class AppView extends StatefulWidget {
   @override
@@ -19,32 +20,15 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    logger.d("Logger is working!");
+
     return MaterialApp(
-      navigatorKey: _navigatorKey,
-      builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                      (route) => false,
-                );
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                      (route) => false,
-                );
-                break;
-              default:
-                break;
-            }
-          },
-          child: child,
-        );
-      },
-      onGenerateRoute: (_) => SplashPage.route(),
-    );
+        builder: ExtendedNavigator.builder(
+      router: R.Router(),
+      builder: (context, extendedNav) => Theme(
+        data: ThemeData(brightness: Brightness.dark),
+        child: extendedNav,
+      ),
+    ));
   }
 }
