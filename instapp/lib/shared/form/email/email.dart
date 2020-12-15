@@ -10,4 +10,7 @@ class   Email extends FormzInput<String, EmailValidationError> {
   EmailValidationError validator(String value) {
     return value?.isNotEmpty == true ? null : EmailValidationError.empty;
   }
+
+  String errorText() => invalid ? 'invalid email' : null;
+  String label() => 'email';
 }

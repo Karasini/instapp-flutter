@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:instapp/home/home.dart';
-import 'package:instapp/modules/login/ui/view/login_page.dart';
+import 'package:instapp/modules/home/presentation/home_page.dart';
+import 'package:instapp/modules/login/presentation/view/login_page.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[

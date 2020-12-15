@@ -10,4 +10,7 @@ class Password extends FormzInput<String, PasswordValidationError> {
   PasswordValidationError validator(String value) {
     return value?.isNotEmpty == true ? null : PasswordValidationError.empty;
   }
+
+  String errorText() => invalid ? 'invalid password' : null;
+  String label() => 'password';
 }
