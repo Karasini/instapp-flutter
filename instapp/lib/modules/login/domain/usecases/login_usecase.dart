@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:instapp/modules/login/Infrastructure/jwt_repository.dart';
+import 'package:instapp/modules/login/domain/repository/jwt_repository_abstract.dart';
 
 class LoginResult {
   final bool isSuccess;
@@ -10,7 +10,7 @@ class LoginResult {
 
 @injectable
 class LoginUseCase {
-  final JwtRepository _jwtRepository;
+  final JwtRepositoryAbstract _jwtRepository;
 
   LoginUseCase(this._jwtRepository);
 

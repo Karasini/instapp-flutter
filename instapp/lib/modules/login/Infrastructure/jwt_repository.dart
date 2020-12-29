@@ -2,9 +2,10 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/login/domain/jwt.dart';
+import 'package:instapp/modules/login/domain/repository/jwt_repository_abstract.dart';
 
-@injectable
-class JwtRepository {
+@Injectable(as: JwtRepositoryAbstract)
+class JwtRepository implements JwtRepositoryAbstract {
   final FlutterSecureStorage _storage;
   final FlutterAppAuth _appAuth;
 

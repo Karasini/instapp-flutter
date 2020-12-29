@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
-import 'package:instapp/modules/login/Infrastructure/jwt_repository.dart';
+import 'package:instapp/modules/login/domain/repository/jwt_repository_abstract.dart';
 
 @injectable
 class DeleteJwtUserCase {
-  final JwtRepository _jwtRepository;
+  final JwtRepositoryAbstract _jwtRepository;
 
   DeleteJwtUserCase(this._jwtRepository);
 
