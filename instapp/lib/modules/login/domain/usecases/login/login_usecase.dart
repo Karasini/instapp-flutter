@@ -1,11 +1,11 @@
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/login/Infrastructure/jwt_repository.dart';
-
-import '../jwt.dart';
+import 'package:instapp/modules/login/domain/jwt.dart';
+import 'package:instapp/modules/login/domain/usecases/login/login_result.dart';
 
 @injectable
-class LoginUserCase {
+class LoginUseCase {
   final JwtRepository _jwtRepository;
   final FlutterAppAuth _appAuth;
 
@@ -25,9 +25,9 @@ class LoginUserCase {
           'https://ce231d8c824f.ngrok.io/connect/authorize',
           'https://ce231d8c824f.ngrok.io/connect/token');
 
-  LoginUserCase(this._jwtRepository, this._appAuth);
+  LoginUseCase(this._jwtRepository, this._appAuth);
 
-  Future<bool> logIn() async {
+  Future<LoginResult> logIn() async {
     try {
       final AuthorizationTokenResponse result =
       await _appAuth.authorizeAndExchangeCode(
@@ -42,10 +42,9 @@ class LoginUserCase {
       var jwt = new Jwt(result.accessToken, result.refreshToken, result.accessTokenExpirationDateTime);
       await _jwtRepository.saveJwt(jwt);
 
-    } catch (_) {
-      return false;
+      return new LoginResult(false, "");
+    } catch (e) {
+      return new LoginResult(false, e.toString());
     }
-
-    return true;
   }
 }

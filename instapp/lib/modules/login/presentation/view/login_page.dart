@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                 Scaffold.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
-                    SnackBar(content: Text("Authentication Failure email: ${state.email.value}, password: ${state.password.value}")),
+                    SnackBar(content: Text("Error: ${state.error}")),
                   );
               }
               if (state.status.isSubmissionSuccess) {

@@ -1,6 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/login/domain/jwt.dart';
 
+@injectable
 class JwtRepository {
   final FlutterSecureStorage _storage;
 
