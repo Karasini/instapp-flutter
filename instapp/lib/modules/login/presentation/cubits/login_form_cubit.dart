@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:instapp/modules/login/domain/usecases/login/login_usecase.dart';
+import 'package:instapp/modules/login/domain/usecases/login_usecase.dart';
 
 part 'login_form_state.dart';
 

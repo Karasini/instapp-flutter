@@ -14,13 +14,16 @@ class Jwt {
   /// before it expires.
   final DateTime accessTokenExpirationDateTime;
 
-  Jwt(this.accessToken, this.refreshToken, this.accessTokenExpirationDateTime);
+  String userId;
 
-  String getUserId() {
+  Jwt(this.accessToken, this.refreshToken, this.accessTokenExpirationDateTime) {
     var json = parseJwtPayLoad(accessToken);
-    return json['sub'];
+    userId = json['sub'];
   }
 
+  bool isExpired() {
+    return DateTime.now().isAfter(accessTokenExpirationDateTime);
+  }
 
   Map<String, dynamic> parseJwtPayLoad(String token) {
     final parts = token.split('.');

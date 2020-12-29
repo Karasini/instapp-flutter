@@ -6,7 +6,6 @@ class WelcomeUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Builder(
@@ -15,7 +14,10 @@ class WelcomeUser extends StatelessWidget {
                   (AuthenticationCubit bloc) => bloc.state,
             );
             if (state.status == AuthenticationStatus.authenticated) {
-              return Text('Hello: ${state.userId}');
+              return Column(children: [
+                Text('Hello: ${state.jwt.userId}'),
+                Text('ExpirationTime: ${state.jwt.accessTokenExpirationDateTime.toIso8601String()}'),
+              ]);
             } else {
               return Text('User not logged in');
             }

@@ -30,6 +30,14 @@ class HomePage extends StatelessWidget {
               },
             ),
             RaisedButton(
+              child: const Text('Refresh'),
+              onPressed: () {
+                context
+                    .read<AuthenticationCubit>()
+                    .refresh();
+              },
+            ),
+            RaisedButton(
               child: const Text('Invoke checkAuth'),
               onPressed: () {
                 context
