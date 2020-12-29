@@ -13,7 +13,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => authenticationCubit,
+      create: (_) {
+        authenticationCubit.checkAuth();
+        return authenticationCubit;
+      },
       child: AppView(),
     );
   }

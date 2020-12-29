@@ -42,7 +42,7 @@ class LoginUseCase {
       var jwt = new Jwt(result.accessToken, result.refreshToken, result.accessTokenExpirationDateTime);
       await _jwtRepository.saveJwt(jwt);
 
-      return new LoginResult(false, "");
+      return new LoginResult(true, "");
     } catch (e) {
       return new LoginResult(false, e.toString());
     }

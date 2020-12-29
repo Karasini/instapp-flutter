@@ -26,15 +26,15 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 context
                     .read<AuthenticationCubit>()
-                    .unauthenticated();
+                    .logout();
               },
             ),
             RaisedButton(
-              child: const Text('Login'),
+              child: const Text('Invoke checkAuth'),
               onPressed: () {
                 context
                     .read<AuthenticationCubit>()
-                    .authenticated();
+                    .checkAuth();
               },
             ),
             RaisedButton(

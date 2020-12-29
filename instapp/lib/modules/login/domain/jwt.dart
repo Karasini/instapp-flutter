@@ -21,6 +21,7 @@ class Jwt {
     return json['sub'];
   }
 
+
   Map<String, dynamic> parseJwtPayLoad(String token) {
     final parts = token.split('.');
     if (parts.length != 3) {

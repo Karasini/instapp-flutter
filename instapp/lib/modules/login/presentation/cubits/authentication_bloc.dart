@@ -18,13 +18,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     return super.close();
   }
 
-  Future<void> authenticated() async {
+  checkAuth() async {
     var jwt = await _jwtRepository.getJwt();
-    var userId = jwt.getUserId();
-    emit(AuthenticationState.authenticated(userId));
+    var userId = jwt?.getUserId();
+    if (userId != null && userId.isNotEmpty) {
+      emit(AuthenticationState.authenticated(userId));
+    } else {
+      emit(AuthenticationState.unauthenticated());
+    }
   }
 
-  void unauthenticated() {
-    emit(AuthenticationState.unauthenticated());
+  void logout() {
+    _jwtRepository.deleteJwt();
+    checkAuth();
   }
+
 }
