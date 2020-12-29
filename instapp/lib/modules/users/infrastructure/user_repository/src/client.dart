@@ -8,18 +8,8 @@ class Config {
 
   static String _token;
   static final AuthLink authLink = AuthLink(getToken: () => _token);
-  static final WebSocketLink websocketLink = WebSocketLink(
-    url: 'http://localhost:5000/graphql',
-    config: SocketClientConfig(
-      autoReconnect: true,
-      inactivityTimeout: Duration(seconds: 30),
-      initPayload: {
-        'headers': {'Authorization': _token},
-      },
-    ),
-  );
 
-  static final Link link = authLink.concat(httpLink).concat(websocketLink);
+  static final Link link = authLink.concat(httpLink);
   static String token;
 
   static ValueNotifier<GraphQLClient> initailizeClient(String token) {
