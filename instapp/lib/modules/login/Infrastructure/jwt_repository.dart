@@ -14,7 +14,7 @@ class JwtRepository {
       _storage.read(key: "jwt.refreshToken"),
       _storage.read(key: "jwt.expirationDate")]);
 
-    return new Jwt(results[0], results[1], DateTime.parse(results[3]));
+    return new Jwt(results[0], results[1], DateTime.parse(results[2]));
   }
 
   Future<void> saveJwt(Jwt jwt) async {

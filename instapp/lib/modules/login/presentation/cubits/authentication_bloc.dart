@@ -3,23 +3,28 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:instapp/modules/login/Infrastructure/jwt_repository.dart';
 
 part 'authentication_state.dart';
 
 @injectable
 class AuthenticationCubit extends Cubit<AuthenticationState> {
-  AuthenticationCubit() : super(const AuthenticationState.unknown());
+  AuthenticationCubit(this._jwtRepository) : super(const AuthenticationState.unknown());
+
+  final JwtRepository _jwtRepository;
 
   @override
   Future<void> close() {
     return super.close();
   }
 
-  void login() {
-    emit(AuthenticationState.authenticated());
+  Future<void> authenticated() async {
+    var jwt = await _jwtRepository.getJwt();
+    var userId = jwt.getUserId();
+    emit(AuthenticationState.authenticated(userId));
   }
 
-  void logout() {
+  void unauthenticated() {
     emit(AuthenticationState.unauthenticated());
   }
 }

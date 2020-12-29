@@ -11,11 +11,11 @@ class WelcomeUser extends StatelessWidget {
       children: [
         Builder(
           builder: (context) {
-            final status = context.select(
-                  (AuthenticationCubit bloc) => bloc.state.status,
+            final state = context.select(
+                  (AuthenticationCubit bloc) => bloc.state,
             );
-            if (status == AuthenticationStatus.authenticated) {
-              return Text('Hello: ');
+            if (state.status == AuthenticationStatus.authenticated) {
+              return Text('Hello: ${state.userId}');
             } else {
               return Text('User not logged in');
             }

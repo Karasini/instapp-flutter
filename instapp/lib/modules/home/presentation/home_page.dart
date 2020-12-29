@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 context
                     .read<AuthenticationCubit>()
-                    .logout();
+                    .unauthenticated();
               },
             ),
             RaisedButton(
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 context
                     .read<AuthenticationCubit>()
-                    .login();
+                    .authenticated();
               },
             ),
             RaisedButton(
