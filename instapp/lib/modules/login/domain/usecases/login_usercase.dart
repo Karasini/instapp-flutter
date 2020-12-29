@@ -1,16 +1,51 @@
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:injectable/injectable.dart';
-import 'package:instapp/modules/login/domain/repository/auth_repository.dart';
+import 'package:instapp/modules/login/Infrastructure/jwt_repository.dart';
+
+import '../jwt.dart';
 
 @injectable
 class LoginUserCase {
-  final AuthRepository _authRepository;
+  final JwtRepository _jwtRepository;
+  final FlutterAppAuth _appAuth;
 
-  LoginUserCase(this._authRepository);
+  final String _clientId = 'api_client';
+  final String _redirectUrl = 'pl.instapp:/oauthredirect';
+  final String _discoveryUrl =
+      'https://ce231d8c824f.ngrok.io/.well-known/openid-configuration';
+  final List<String> _scopes = <String>[
+    'openid',
+    'profile',
+    'offline_access',
+    'IdentityServerApi'
+  ];
 
-  Future<bool> logIn(String email, String password) {
-    // TODO: authRepository should return token
-    // save token in cache
-    // if login failed, catch exception and return false
-    return _authRepository.logIn(email, password);
+  final AuthorizationServiceConfiguration _serviceConfiguration =
+      AuthorizationServiceConfiguration(
+          'https://ce231d8c824f.ngrok.io/connect/authorize',
+          'https://ce231d8c824f.ngrok.io/connect/token');
+
+  LoginUserCase(this._jwtRepository, this._appAuth);
+
+  Future<bool> logIn() async {
+    try {
+      final AuthorizationTokenResponse result =
+      await _appAuth.authorizeAndExchangeCode(
+        AuthorizationTokenRequest(
+          _clientId,
+          _redirectUrl,
+          serviceConfiguration: _serviceConfiguration,
+          scopes: _scopes,
+          preferEphemeralSession: false,
+        ),
+      );
+      var jwt = new Jwt(result.accessToken, result.refreshToken, result.accessTokenExpirationDateTime);
+      await _jwtRepository.saveJwt(jwt);
+
+    } catch (_) {
+      return false;
+    }
+
+    return true;
   }
 }

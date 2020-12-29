@@ -50,6 +50,12 @@ class HomePage extends StatelessWidget {
                 ExtendedNavigator.of(context).push(Routes.loginPage, arguments: LoginPageArguments(loginFormCubit: getIt<LoginFormCubit>()));
               },
             ),
+            RaisedButton(
+              child: const Text('Go to AppAuth Page'),
+              onPressed: () {
+                ExtendedNavigator.of(context).push(Routes.appAuthPage);
+              },
+            ),
           ],
         ),
       ),

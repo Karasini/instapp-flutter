@@ -30,7 +30,9 @@ dependencies:
   injectable: ^1.0.5
   uuid: ^2.2.2
   formz: ^0.3.2
+  flutter_secure_storage: ^3.3.5
   auto_route: ^0.6.9
+  flutter_appauth: ^0.9.2+6
   flutter:
     sdk: flutter
 
