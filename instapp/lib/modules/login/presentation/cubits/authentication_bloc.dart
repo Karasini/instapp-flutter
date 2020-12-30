@@ -32,7 +32,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   Future<void> logout() async {
     await _deleteJwtUserCase.deleteJwt();
-    checkAuth();
+    await checkAuth();
   }
 
   Future<void> refresh() async {

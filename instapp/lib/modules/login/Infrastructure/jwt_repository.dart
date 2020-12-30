@@ -86,7 +86,7 @@ class JwtRepository implements JwtRepositoryAbstract {
           scopes: _scopes));
 
       result = new Jwt(token.accessToken, token.refreshToken, token.accessTokenExpirationDateTime);
-      saveJwt(result);
+      await saveJwt(result);
     } catch (e) {
     }
     return result;

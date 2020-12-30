@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/login/domain/jwt.dart';
 import 'package:instapp/modules/login/domain/repository/jwt_repository_abstract.dart';
@@ -17,7 +15,7 @@ class GetOrRefreshTokenUseCase {
 
     if(jwt == null) return null;
 
-    return jwt.isExpired() ? refreshToken() : jwt;
+    return jwt.isExpired() ? await refreshToken() : jwt;
   }
 
   Future<Jwt> refreshToken() async {
