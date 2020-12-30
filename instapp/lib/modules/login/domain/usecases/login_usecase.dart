@@ -19,11 +19,9 @@ class LoginUseCase {
   Future<LoginResult> logIn() async {
     try {
       var jwt = await _jwtRepository.login();
-      if (jwt != null) {
-        return new LoginResult(true, "", jwt);
-      } else {
-        return new LoginResult(false, "unknown error", null);
-      }
+      return jwt != null
+          ? new LoginResult(true, "", jwt)
+          : new LoginResult(false, "unknown error", null);
     } catch (e) {
       return new LoginResult(false, e.toString(), null);
     }
