@@ -25,13 +25,18 @@ class JwtRepository implements JwtRepositoryAbstract {
       'https://ce231d8c824f.ngrok.io/connect/authorize',
       'https://ce231d8c824f.ngrok.io/connect/token');
 
+  final accessTokenKey = "jwt.accessToken";
+  final refreshTokenKey = "jwt.refreshToken";
+  final expirationDateKey = "jwt.expirationDate";
+
   JwtRepository(this._storage, this._appAuth);
 
   Future<Jwt> getJwt() async {
+
     var results = await Future.wait([
-      _storage.read(key: "jwt.accessToken"),
-      _storage.read(key: "jwt.refreshToken"),
-      _storage.read(key: "jwt.expirationDate")]);
+      _storage.read(key: accessTokenKey),
+      _storage.read(key: refreshTokenKey),
+      _storage.read(key: expirationDateKey)]);
 
     if(results[2] == null) return null;
 
@@ -40,18 +45,18 @@ class JwtRepository implements JwtRepositoryAbstract {
 
   Future<void> saveJwt(Jwt jwt) async {
     await Future.wait([
-      _storage.write(key: "jwt.accessToken", value: jwt.accessToken),
-      _storage.write(key: "jwt.refreshToken", value: jwt.refreshToken),
-      _storage.write(key: "jwt.expirationDate",
+      _storage.write(key: accessTokenKey, value: jwt.accessToken),
+      _storage.write(key: refreshTokenKey, value: jwt.refreshToken),
+      _storage.write(key: expirationDateKey,
           value: jwt.accessTokenExpirationDateTime.toIso8601String()),
     ]);
   }
 
   Future<void> deleteJwt() async {
     await Future.wait([
-      _storage.delete(key: "jwt.accessToken"),
-      _storage.delete(key: "jwt.refreshToken"),
-      _storage.delete(key: "jwt.expirationDate"),
+      _storage.delete(key: accessTokenKey),
+      _storage.delete(key: refreshTokenKey),
+      _storage.delete(key: expirationDateKey),
     ]);
   }
 
