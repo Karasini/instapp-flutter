@@ -4,17 +4,17 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/login/domain/jwt.dart';
+import 'package:instapp/modules/login/domain/usecases/get_or_refresh_token_usecase.dart';
 import 'package:instapp/modules/login/domain/usecases/delete_jwt_usecase.dart';
-import 'package:instapp/modules/login/domain/usecases/get_jwt_usecase.dart';
 import 'package:instapp/modules/login/domain/usecases/refresh_jwt_usecase.dart';
 
 part 'authentication_state.dart';
 
 @injectable
 class AuthenticationCubit extends Cubit<AuthenticationState> {
-  AuthenticationCubit(this._getJwtUseCase, this._deleteJwtUserCase, this._refreshJwtUserCase) : super(const AuthenticationState.unknown());
+  AuthenticationCubit(this._deleteJwtUserCase, this._refreshJwtUserCase, this._getOrRefreshTokenUseCase) : super(const AuthenticationState.unknown());
 
-  final GetJwtUseCase _getJwtUseCase;
+  final GetOrRefreshTokenUseCase _getOrRefreshTokenUseCase;
   final DeleteJwtUserCase _deleteJwtUserCase;
   final RefreshJwtUserCase _refreshJwtUserCase;
 
@@ -24,8 +24,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> checkAuth() async {
-    var jwt = await _getJwtUseCase.getJwt();
-    if (jwt != null && !jwt.isExpired()) {
+    var jwt = await _getOrRefreshTokenUseCase.getOrRefresh();
+    if (jwt != null) {
       emit(AuthenticationState.authenticated(jwt));
     } else {
       emit(AuthenticationState.unauthenticated());
