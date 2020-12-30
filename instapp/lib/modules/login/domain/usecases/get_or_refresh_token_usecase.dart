@@ -23,12 +23,7 @@ class GetOrRefreshTokenUseCase {
   }
 
   Future<Jwt> refreshToken() async {
-    Jwt jwt;
-    try {
-      jwt = await _refreshJwtUserCase.refreshJwt();
-    } catch (_) {
-    }
-    return jwt;
+    return _refreshJwtUserCase.refreshJwt();
   }
 
 }

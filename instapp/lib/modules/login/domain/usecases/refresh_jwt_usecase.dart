@@ -8,9 +8,12 @@ class RefreshJwtUserCase {
   RefreshJwtUserCase(this._jwtRepository);
 
   Future<Jwt> refreshJwt() async {
-    final jwt = await _jwtRepository.getJwt();
+    Jwt jwt = await _jwtRepository.getJwt();
     if (jwt == null) return null;
-
-    return await _jwtRepository.refreshToken(jwt);
+    try {
+      jwt = await _jwtRepository.refreshToken(jwt);
+    } catch (_) {
+    }
+    return jwt;
   }
 }
