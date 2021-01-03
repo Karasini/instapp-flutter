@@ -10,11 +10,20 @@ import 'models/models.dart';
 class UserRepository {
   UserDto _user;
   final String getTasksQuery = """
-query {
-  allTodos {
-    id,
-    title,
-    completed
+query GetAllUser {
+  a: users {
+    edges{
+      node{        
+        nick
+        password
+        id
+      }
+    }
+    pageInfo{
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
   }
 }
 """;
