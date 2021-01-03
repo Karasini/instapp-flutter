@@ -17,6 +17,10 @@ class Jwt {
   String userId;
 
   Jwt(this.accessToken, this.refreshToken, this.accessTokenExpirationDateTime) {
+    parseAccessToken();
+  }
+
+  void parseAccessToken() {
     var json = parseJwtPayLoad(accessToken);
     userId = json['sub'];
   }

@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
           child: BlocListener<LoginFormCubit, LoginFormState>(
             listener: (context, state) {
               if (state.status.isSubmissionFailure) {
-                context.read<AuthenticationCubit>().checkAuth();
+                context.read<AuthenticationCubit>().checkIfJwtIsValid();
                 Scaffold.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
                   );
               }
               if (state.status.isSubmissionSuccess) {
-                context.read<AuthenticationCubit>().checkAuth();
+                context.read<AuthenticationCubit>().checkIfJwtIsValid();
                 ExtendedNavigator.of(context).pop();
               }
             },

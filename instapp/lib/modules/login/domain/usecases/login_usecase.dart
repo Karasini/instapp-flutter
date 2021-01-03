@@ -1,14 +1,8 @@
 import 'package:injectable/injectable.dart';
+import 'package:instapp/modules/app/app_logger.dart';
 import 'package:instapp/modules/login/domain/jwt.dart';
+import 'package:instapp/modules/login/domain/login_result.dart';
 import 'package:instapp/modules/login/domain/repository/jwt_repository_abstract.dart';
-
-class LoginResult {
-  final bool isSuccess;
-  final String error;
-  final Jwt jwt;
-
-  LoginResult(this.isSuccess, this.error, this.jwt);
-}
 
 @injectable
 class LoginUseCase {
@@ -23,6 +17,7 @@ class LoginUseCase {
           ? new LoginResult(true, "", jwt)
           : new LoginResult(false, "unknown error", null);
     } catch (e) {
+      logger.d(e);
       return new LoginResult(false, e.toString(), null);
     }
   }

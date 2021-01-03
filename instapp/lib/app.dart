@@ -14,7 +14,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        authenticationCubit.checkAuth();
+        authenticationCubit.checkIfJwtIsValid();
         return authenticationCubit;
       },
       child: AppView(),

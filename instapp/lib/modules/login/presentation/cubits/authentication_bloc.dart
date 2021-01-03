@@ -18,7 +18,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final DeleteJwtUserCase _deleteJwtUserCase;
   final RefreshJwtUserCase _refreshJwtUserCase;
 
-  Future<void> checkAuth() async {
+  Future<void> checkIfJwtIsValid() async {
     await checkJwt(await _getOrRefreshTokenUseCase.getOrRefresh());
   }
 
@@ -32,11 +32,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   Future<void> logout() async {
     await _deleteJwtUserCase.deleteJwt();
-    await checkAuth();
+    await checkIfJwtIsValid();
   }
 
   Future<void> refresh() async {
     await checkJwt(await _refreshJwtUserCase.refreshJwt());
   }
-
 }
