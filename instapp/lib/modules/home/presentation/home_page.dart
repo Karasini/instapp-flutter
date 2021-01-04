@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
             RaisedButton(
               child: const Text('Go to Graph Page'),
               onPressed: () {
-                ExtendedNavigator.of(context).push(Routes.graphQL,
+                ExtendedNavigator.of(context).push(Routes.graph,
                     arguments: LoginPageArguments(
                         loginFormCubit: getIt<LoginFormCubit>()));
               },
