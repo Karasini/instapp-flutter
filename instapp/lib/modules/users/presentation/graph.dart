@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import "package:graphql_flutter/graphql_flutter.dart";
 import 'package:instapp/modules/users/domain/models/user.dart';
-import 'package:instapp/modules/users/infrastructure/api/graphQLConfiguration.dart';
 import 'package:instapp/modules/users/infrastructure/api/users_queries.dart';
-
-GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
 class Graph extends StatefulWidget {
   @override
@@ -12,7 +8,6 @@ class Graph extends StatefulWidget {
 }
 
 class _Graph extends State<Graph> {
-  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
   List<User> listUsers = List<User>();
 
@@ -68,27 +63,5 @@ class _Graph extends State<Graph> {
 
   void fillList() async {
     UsersQueries queryMutation = UsersQueries();
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult result = await _client.query(
-      QueryOptions(
-        document: queryMutation.getUserById(
-            "VXNlcgpkYmVhNjFmZGQtYTc4My00OTBmLTg5MDktNjQyM2VjNjc3MDQw"),
-      ),
-    );
-
-    for (var i = 0; i < result.data["users"].length; i++) {
-      setState(() {
-        var a = result.data["users"][i];
-        listUsers.add(
-          User(
-            result.data["users"][i]["edges"]["node"][0]["email"],
-            result.data["users"]["edges"]["node"][1]["nick"],
-            result.data["users"]["edges"]["node"][0]["password"],
-            result.data["users"]["edges"]["node"][2]["id"],
-          ),
-        );
-      });
-    }
-    print(listUsers.length);
   }
 }

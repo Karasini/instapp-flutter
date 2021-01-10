@@ -1,12 +1,17 @@
-import 'package:equatable/equatable.dart';
 
-class UserDto extends Equatable {
-  const UserDto(this.id);
+class UserDto {
+  UserDto(this.email, this.nick, this.password, this.id);
 
+  final String email;
+  final String nick;
+  final String password;
   final String id;
 
-  @override
-  List<Object> get props => [id];
+  getEmail() => email;
 
-  static const empty = UserDto('-');
+  getNick() => nick;
+
+  getPassword() => password;
+
+  getId() => id;
 }

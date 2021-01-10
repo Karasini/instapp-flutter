@@ -24,7 +24,6 @@ query GetAllUser {
         id
     }
   }
-  }
       """;
   }
 }
