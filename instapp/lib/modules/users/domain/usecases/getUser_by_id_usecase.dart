@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/users/domain/models/user.dart';
-import 'package:instapp/modules/users/infrastructure/user_repository/src/user_repository.dart';
+import 'package:instapp/modules/users/domain/repository/user_repository.dart';
 
 abstract class GetUserByIdUseCase {
   Future<User> execute(String id);

@@ -1,4 +1,4 @@
-class QueryMutation {
+class UsersQueries {
   String getAll() {
     return """
 query GetAllUser {

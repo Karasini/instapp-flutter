@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import "package:graphql_flutter/graphql_flutter.dart";
 import 'package:instapp/modules/users/domain/models/user.dart';
 import 'package:instapp/modules/users/infrastructure/api/graphQLConfiguration.dart';
-import 'package:instapp/modules/users/infrastructure/api/query.dart';
+import 'package:instapp/modules/users/infrastructure/api/users_queries.dart';
 
 GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
@@ -67,7 +67,7 @@ class _Graph extends State<Graph> {
   }
 
   void fillList() async {
-    QueryMutation queryMutation = QueryMutation();
+    UsersQueries queryMutation = UsersQueries();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.query(
       QueryOptions(
