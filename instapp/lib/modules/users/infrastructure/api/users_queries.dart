@@ -1,5 +1,5 @@
 class UsersQueries {
-  String getAll() {
+  String getAll(String id) {
     return """
 query GetAllUser {
  users {
@@ -13,5 +13,18 @@ query GetAllUser {
   }
 }
     """;
+  }
+
+  String getUserById(String id) {
+    return """
+  {
+  userById(id: "$id") {
+        nick
+        password
+        id
+    }
+  }
+  }
+      """;
   }
 }

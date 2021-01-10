@@ -71,7 +71,8 @@ class _Graph extends State<Graph> {
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.query(
       QueryOptions(
-        document: queryMutation.getAll(),
+        document: queryMutation.getUserById(
+            "VXNlcgpkYmVhNjFmZGQtYTc4My00OTBmLTg5MDktNjQyM2VjNjc3MDQw"),
       ),
     );
 

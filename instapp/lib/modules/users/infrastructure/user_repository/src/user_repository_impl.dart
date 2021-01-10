@@ -14,7 +14,7 @@ class UserRepositoryImpl implements UserRepository {
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.query(
       QueryOptions(
-        document: queryMutation.getAll(),
+        document: queryMutation.getUserById(id),
       ),
     );
   }
