@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:instapp/modules/users/domain/models/user.dart';
 
 import 'models/models.dart';
 
@@ -28,7 +29,7 @@ query GetAllUser {
 }
 """;
 
-  Future<UserDto> getUserById(String id) async {}
+  Future<User> getUserById(String id) async {}
 
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(

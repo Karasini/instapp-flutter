@@ -77,12 +77,13 @@ class _Graph extends State<Graph> {
 
     for (var i = 0; i < result.data["users"].length; i++) {
       setState(() {
+        var a = result.data["users"][i];
         listUsers.add(
           User(
-            result.data["users"]["edges"][i]["nick"],
-            result.data["users"]["edges"][i]["nick"],
-            result.data["users"]["edges"][i]["nick"],
-            result.data["users"]["edges"][i]["nick"],
+            result.data["users"][i]["edges"]["node"][0]["email"],
+            result.data["users"]["edges"]["node"][1]["nick"],
+            result.data["users"]["edges"]["node"][0]["password"],
+            result.data["users"]["edges"]["node"][2]["id"],
           ),
         );
       });
