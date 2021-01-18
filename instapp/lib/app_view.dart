@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-import 'package:instapp/modules/app/router.gr.dart' as R;
+import 'package:instapp/modules/app/presentation/routes/router.gr.dart' as R;
 
 class AppView extends StatefulWidget {
   @override
