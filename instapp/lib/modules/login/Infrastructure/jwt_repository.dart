@@ -1,6 +1,8 @@
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:instapp/modules/app/app_logger.dart';
+import 'package:instapp/modules/app/domain/config/config_repository_abstract.dart';
+import 'package:instapp/modules/app/domain/config/open_id_config.dart';
 import 'package:instapp/modules/login/domain/jwt.dart';
 import 'package:instapp/modules/login/domain/repository/jwt_repository_abstract.dart';
 import 'package:instapp/modules/login/domain/repository/jwt_storage_repository_abstract.dart';
@@ -9,28 +11,19 @@ import 'package:instapp/modules/login/domain/repository/jwt_storage_repository_a
 class JwtRepository implements JwtRepositoryAbstract {
   final FlutterAppAuth _appAuth;
   final JwtStorageRepositoryAbstract _jwtStorageRepository;
+  final ConfigRepositoryAbstract _configRepository;
 
-  final String _clientId = 'api_client';
-  final String _redirectUrl = 'pl.instapp:/oauthredirect';
-  final String _discoveryUrl =
-      'https://ce231d8c824f.ngrok.io/.well-known/openid-configuration';
-  final List<String> _scopes = <String>[
-    'openid',
-    'profile',
-    'offline_access',
-    'IdentityServerApi'
-  ];
+  OpenIdConfig _openIdConfig;
 
-  final AuthorizationServiceConfiguration _serviceConfiguration =
-  AuthorizationServiceConfiguration(
-      'https://ce231d8c824f.ngrok.io/connect/authorize',
-      'https://ce231d8c824f.ngrok.io/connect/token');
-
-  JwtRepository(this._appAuth, this._jwtStorageRepository);
+  JwtRepository(
+      this._appAuth, this._jwtStorageRepository, this._configRepository) {
+    _openIdConfig = _configRepository.getOpenId();
+  }
 
   Future<Jwt> login() async {
     AuthorizationTokenResponse result = await authorizeAndGetToken();
-    var jwt = new Jwt(result.accessToken, result.refreshToken, result.accessTokenExpirationDateTime);
+    var jwt = new Jwt(result.accessToken, result.refreshToken,
+        result.accessTokenExpirationDateTime);
     await _jwtStorageRepository.saveJwt(jwt);
     return jwt;
   }
@@ -39,7 +32,8 @@ class JwtRepository implements JwtRepositoryAbstract {
     Jwt result;
     try {
       TokenResponse token = await getToken(jwt);
-      result = new Jwt(token.accessToken, token.refreshToken, token.accessTokenExpirationDateTime);
+      result = new Jwt(token.accessToken, token.refreshToken,
+          token.accessTokenExpirationDateTime);
       await _jwtStorageRepository.saveJwt(result);
     } catch (e) {
       logger.d(e);
@@ -49,19 +43,23 @@ class JwtRepository implements JwtRepositoryAbstract {
 
   Future<TokenResponse> getToken(Jwt jwt) async {
     return await _appAuth.token(TokenRequest(
-        _clientId, _redirectUrl,
+        _openIdConfig.clientId, _openIdConfig.redirectUrl,
         refreshToken: jwt.refreshToken,
-        discoveryUrl: _discoveryUrl,
-        scopes: _scopes));
+        discoveryUrl: _openIdConfig.discoveryUrl,
+        scopes: _openIdConfig.scopes));
   }
 
   Future<AuthorizationTokenResponse> authorizeAndGetToken() async {
+    final serviceConfig = AuthorizationServiceConfiguration(
+        _openIdConfig.authorizeUrl,
+        _openIdConfig.tokenUrl);
+
     return await _appAuth.authorizeAndExchangeCode(
       AuthorizationTokenRequest(
-        _clientId,
-        _redirectUrl,
-        serviceConfiguration: _serviceConfiguration,
-        scopes: _scopes,
+        _openIdConfig.clientId,
+        _openIdConfig.redirectUrl,
+        serviceConfiguration: serviceConfig,
+        scopes: _openIdConfig.scopes,
         preferEphemeralSession: false,
       ),
     );
