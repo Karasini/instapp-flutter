@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instapp/config/di/di.dart';
-import 'package:instapp/modules/app/router.gr.dart';
+import 'package:instapp/modules/app/presentation/routes/router.gr.dart';
+import 'package:instapp/modules/home/presentation/welcome_user.dart';
 import 'package:instapp/modules/login/presentation/cubits/authentication_bloc.dart';
 import 'package:instapp/modules/login/presentation/cubits/login_form_cubit.dart';
 
@@ -19,14 +20,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Builder(
-              builder: (context) {
-                final status = context.select(
-                      (AuthenticationCubit bloc) => bloc.state.status,
-                );
-                return Text('Status: $status');
-              },
-            ),
+            WelcomeUser(),
             RaisedButton(
               child: const Text('Logout'),
               onPressed: () {
@@ -36,9 +30,19 @@ class HomePage extends StatelessWidget {
               },
             ),
             RaisedButton(
-              child: const Text('Login'),
+              child: const Text('Refresh'),
               onPressed: () {
-                context.read<AuthenticationCubit>().login();
+                context
+                    .read<AuthenticationCubit>()
+                    .refresh();
+              },
+            ),
+            RaisedButton(
+              child: const Text('Invoke checkAuth'),
+              onPressed: () {
+                context
+                    .read<AuthenticationCubit>()
+                    .checkIfJwtIsValid();
               },
             ),
             RaisedButton(

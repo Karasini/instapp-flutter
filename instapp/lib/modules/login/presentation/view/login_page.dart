@@ -30,15 +30,15 @@ class LoginPage extends StatelessWidget {
           child: BlocListener<LoginFormCubit, LoginFormState>(
             listener: (context, state) {
               if (state.status.isSubmissionFailure) {
-                context.read<AuthenticationCubit>().logout();
+                context.read<AuthenticationCubit>().checkIfJwtIsValid();
                 Scaffold.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
-                    SnackBar(content: Text("Authentication Failure email: ${state.email.value}, password: ${state.password.value}")),
+                    SnackBar(content: Text("Error: ${state.error}")),
                   );
               }
               if (state.status.isSubmissionSuccess) {
-                context.read<AuthenticationCubit>().login();
+                context.read<AuthenticationCubit>().checkIfJwtIsValid();
                 ExtendedNavigator.of(context).pop();
               }
             },
