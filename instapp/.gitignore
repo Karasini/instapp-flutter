@@ -40,3 +40,5 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 /lib/config/di/di.config.dart
+/lib/modules/app/domain/config/open_id_config.g.dart
+/lib/modules/app/presentation/routes/router.gr.dart
