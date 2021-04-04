@@ -1,0 +1,10 @@
+{
+  "homePageTitle": "Home Page",
+  "homePageLogin": "Login",
+  "homePageHiUserButton": "Hi User!",
+  "bottomNavNews": "News",
+  "bottomNavSearch": "Search",
+  "bottomNavAddNew": "Add new",
+  "bottomNavInfo": "Info",
+  "bottomNavMyProfile": "My profile"
+}

@@ -25,7 +25,7 @@ void main() {
     RefreshJwtUserCase refreshJwtUserCase = RefreshJwtUserCase(storage, repo);
     GetOrRefreshTokenUseCase getOrRefreshTokenUseCase = GetOrRefreshTokenUseCase(refreshJwtUserCase, storage);
     LoginUseCase loginUseCase = LoginUseCase(repo);
-    AuthenticationCubit cubit = AuthenticationCubit(deleteJwtUserCase, refreshJwtUserCase, getOrRefreshTokenUseCase);
+    AuthenticationCubit cubit = AuthenticationCubit(deleteJwtUserCase, refreshJwtUserCase, getOrRefreshTokenUseCase, loginUseCase);
 
     test('deleted jwt token', () {
       deleteJwtUserCase.deleteJwt();
