@@ -1,4 +1,4 @@
-package com.example.instapp
+package com.mobile.instapp
 
 import io.flutter.embedding.android.FlutterActivity
 

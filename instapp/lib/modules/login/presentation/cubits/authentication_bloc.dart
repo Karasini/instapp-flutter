@@ -26,7 +26,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     await checkJwt(await _getOrRefreshTokenUseCase.getOrRefresh());
   }
 
-  Future<void> checkJwt(Jwt jwt) async {
+  Future<void> checkJwt(Jwt? jwt) async {
     if (jwt != null) {
       emit(AuthenticationState.authenticated(jwt));
     } else {

@@ -6,7 +6,7 @@ import 'package:instapp/modules/login/presentation/cubits/authentication_bloc.da
 import 'login_or_user_button.dart';
 
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
-  const AppHeader({Key key})
+  const AppHeader({Key? key})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -28,7 +28,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             child: SvgPicture.asset("assets/icons/instapp_logo.svg"),
           ),
           Spacer(),
-          LoginOrUserButton(authStatus: authStatus, authCubit: authCubit)
+          LoginOrUserButton(authStatus: authStatus, authCubit: authCubit, key: key,)
         ],
       ),
     );

@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   final AuthenticationCubit authenticationCubit;
   final ThemeCubit themeCubit;
 
-  const App({this.authenticationCubit, this.themeCubit}) : super();
+  const App({required this.authenticationCubit, required this.themeCubit}) : super();
 
   @override
   Widget build(BuildContext context) {

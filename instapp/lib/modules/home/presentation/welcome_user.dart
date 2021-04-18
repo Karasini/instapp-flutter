@@ -15,8 +15,8 @@ class WelcomeUser extends StatelessWidget {
             );
             if (state.status == AuthenticationStatus.authenticated) {
               return Column(children: [
-                Text('Hello: ${state.jwt.userId}'),
-                Text('ExpirationTime: ${state.jwt.accessTokenExpirationDateTime.toIso8601String()}'),
+                Text('Hello: ${state.jwt?.userId}'),
+                Text('ExpirationTime: ${state.jwt?.accessTokenExpirationDateTime?.toIso8601String()}'),
               ]);
             } else {
               return Text('User not logged in');

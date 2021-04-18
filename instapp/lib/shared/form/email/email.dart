@@ -7,10 +7,10 @@ class   Email extends FormzInput<String, EmailValidationError> {
   const Email.dirty([String value = '']) : super.dirty(value);
 
   @override
-  EmailValidationError validator(String value) {
-    return value?.isNotEmpty == true ? null : EmailValidationError.empty;
+  EmailValidationError? validator(String value) {
+    return value.isNotEmpty == true ? null : EmailValidationError.empty;
   }
 
-  String errorText() => invalid ? 'invalid email' : null;
+  String errorText() => invalid ? 'invalid email' : '';
   String label() => 'email';
 }

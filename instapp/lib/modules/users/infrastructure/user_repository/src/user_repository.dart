@@ -7,7 +7,7 @@ import 'models/models.dart';
 
 @Singleton()
 class UserRepository {
-  User _user;
+  late User _user;
 
   Future<User> getUser() async {
     if (_user != null) return _user;
