@@ -10,7 +10,7 @@ class AuthenticationState extends Equatable {
 
   const AuthenticationState.unknown() : this._();
 
-  const AuthenticationState.authenticated(Jwt jwt)
+  const AuthenticationState.authenticated(Jwt? jwt)
       : this._(status: AuthenticationStatus.authenticated, jwt: jwt);
 
   const AuthenticationState.unauthenticated()
@@ -20,8 +20,8 @@ class AuthenticationState extends Equatable {
       : this._(status: AuthenticationStatus.authenticating, jwt: null);
 
   final AuthenticationStatus status;
-  final Jwt jwt;
+  final Jwt? jwt;
 
   @override
-  List<Object> get props => [status, jwt];
+  List<Object?> get props => [status, jwt];
 }

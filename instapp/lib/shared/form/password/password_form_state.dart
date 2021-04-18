@@ -8,7 +8,7 @@ class PasswordFormState extends Equatable {
   final Password password;
 
   PasswordFormState copyWith({
-    Password password,
+    required Password password,
   }) {
     return PasswordFormState(password: password ?? this.password);
   }

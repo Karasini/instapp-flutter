@@ -8,7 +8,7 @@ class EmailFormState extends Equatable {
   final Email email;
 
   EmailFormState copyWith({
-    Email email,
+    required Email email,
   }) {
     return EmailFormState(email: email ?? this.email);
   }

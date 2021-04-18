@@ -13,27 +13,27 @@ class JwtRepository implements JwtRepositoryAbstract {
   final JwtStorageRepositoryAbstract _jwtStorageRepository;
   final ConfigRepositoryAbstract _configRepository;
 
-  OpenIdConfig _openIdConfig;
+  late OpenIdConfig _openIdConfig;
 
   JwtRepository(
       this._appAuth, this._jwtStorageRepository, this._configRepository) {
     _openIdConfig = _configRepository.getOpenId();
   }
 
-  Future<Jwt> login() async {
-    AuthorizationTokenResponse result = await authorizeAndGetToken();
-    var jwt = new Jwt(result.accessToken, result.refreshToken,
-        result.accessTokenExpirationDateTime);
+  Future<Jwt?> login() async {
+    AuthorizationTokenResponse? result = await authorizeAndGetToken();
+    var jwt = new Jwt(result?.accessToken, result?.refreshToken,
+        result?.accessTokenExpirationDateTime);
     await _jwtStorageRepository.saveJwt(jwt);
     return jwt;
   }
 
-  Future<Jwt> refreshToken(Jwt jwt) async {
-    Jwt result;
+  Future<Jwt?> refreshToken(Jwt? jwt) async {
+    Jwt? result;
     try {
-      TokenResponse token = await getToken(jwt);
-      result = new Jwt(token.accessToken, token.refreshToken,
-          token.accessTokenExpirationDateTime);
+      TokenResponse? token = await getToken(jwt);
+      result = new Jwt(token?.accessToken, token?.refreshToken,
+          token?.accessTokenExpirationDateTime);
       await _jwtStorageRepository.saveJwt(result);
     } catch (e) {
       logger.d(e);
@@ -41,15 +41,15 @@ class JwtRepository implements JwtRepositoryAbstract {
     return result;
   }
 
-  Future<TokenResponse> getToken(Jwt jwt) async {
+  Future<TokenResponse?> getToken(Jwt? jwt) async {
     return await _appAuth.token(TokenRequest(
         _openIdConfig.clientId, _openIdConfig.redirectUrl,
-        refreshToken: jwt.refreshToken,
+        refreshToken: jwt?.refreshToken,
         discoveryUrl: _openIdConfig.discoveryUrl,
         scopes: _openIdConfig.scopes));
   }
 
-  Future<AuthorizationTokenResponse> authorizeAndGetToken() async {
+  Future<AuthorizationTokenResponse?> authorizeAndGetToken() async {
     final serviceConfig = AuthorizationServiceConfiguration(
         _openIdConfig.authorizeUrl,
         _openIdConfig.tokenUrl);

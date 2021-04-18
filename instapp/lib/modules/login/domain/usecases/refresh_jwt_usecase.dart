@@ -11,12 +11,12 @@ class RefreshJwtUserCase {
 
   RefreshJwtUserCase(this._jwtStorageRepository, this._jwtRepository);
 
-  Future<Jwt> refreshJwt() async {
-    Jwt jwt = await _jwtStorageRepository.getJwt();
+  Future<Jwt?> refreshJwt() async {
+    var jwt = await _jwtStorageRepository.getJwt();
     if (jwt == null) return null;
     try {
       jwt = await _jwtRepository.refreshToken(jwt);
-      await _jwtStorageRepository.saveJwt(jwt);
+      if (jwt != null) await _jwtStorageRepository.saveJwt(jwt);
     } catch (e) {
       logger.d(e);
     }

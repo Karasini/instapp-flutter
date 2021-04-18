@@ -8,5 +8,5 @@ class GetJwtUseCase {
 
   GetJwtUseCase(this._jwtStorageRepository);
 
-  Future<Jwt> getJwt() async => await _jwtStorageRepository.getJwt();
+  Future<Jwt?> getJwt() async => await _jwtStorageRepository.getJwt();
 }

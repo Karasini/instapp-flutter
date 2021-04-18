@@ -6,26 +6,35 @@ import 'package:instapp/modules/login/domain/usecases/get_or_refresh_token_useca
 import 'package:instapp/modules/login/domain/usecases/login_usecase.dart';
 import 'package:instapp/modules/login/domain/usecases/refresh_jwt_usecase.dart';
 import 'package:instapp/modules/login/presentation/cubits/authentication_bloc.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-class JwtRepositoryMock extends Mock implements JwtRepositoryAbstract {}
-class JwtStorageRepositoryMock extends Mock implements JwtStorageRepositoryAbstract {}
+import 'authentication_cubit_test.mocks.dart';
 
+@GenerateMocks([JwtRepositoryAbstract, JwtStorageRepositoryAbstract])
 void main() {
   group('Authentication use cases and AuthenticationCubit', () {
     final tokenExpirationDatetime = DateTime.now().add(Duration(days: 1));
     final accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
     final refreshToken = "refresh_token_123";
-
-    final repo = JwtRepositoryMock();
-    final storage = JwtStorageRepositoryMock();
-    when(storage.getJwt()).thenAnswer((_) async => Jwt(accessToken, refreshToken, tokenExpirationDatetime));
-    DeleteJwtUserCase deleteJwtUserCase = DeleteJwtUserCase(storage);
-    RefreshJwtUserCase refreshJwtUserCase = RefreshJwtUserCase(storage, repo);
-    GetOrRefreshTokenUseCase getOrRefreshTokenUseCase = GetOrRefreshTokenUseCase(refreshJwtUserCase, storage);
-    LoginUseCase loginUseCase = LoginUseCase(repo);
-    AuthenticationCubit cubit = AuthenticationCubit(deleteJwtUserCase, refreshJwtUserCase, getOrRefreshTokenUseCase, loginUseCase);
+    late JwtRepositoryAbstract repo;
+    late JwtStorageRepositoryAbstract storage;
+    late DeleteJwtUserCase deleteJwtUserCase;
+    late RefreshJwtUserCase refreshJwtUserCase;
+    late GetOrRefreshTokenUseCase getOrRefreshTokenUseCase;
+    late LoginUseCase loginUseCase;
+    late AuthenticationCubit cubit;
+    setUp(() {
+      repo = MockJwtRepositoryAbstract();
+      storage = MockJwtStorageRepositoryAbstract();
+      when(storage.getJwt()).thenAnswer((_) async => Jwt(accessToken, refreshToken, tokenExpirationDatetime));
+      deleteJwtUserCase = DeleteJwtUserCase(storage);
+      refreshJwtUserCase = RefreshJwtUserCase(storage, repo);
+      getOrRefreshTokenUseCase = GetOrRefreshTokenUseCase(refreshJwtUserCase, storage);
+      loginUseCase = LoginUseCase(repo);
+      cubit = AuthenticationCubit(deleteJwtUserCase, refreshJwtUserCase, getOrRefreshTokenUseCase, loginUseCase);
+    });
 
     test('deleted jwt token', () {
       deleteJwtUserCase.deleteJwt();
@@ -36,7 +45,7 @@ void main() {
       final jwt = await getOrRefreshTokenUseCase.getOrRefresh();
       verify(storage.getJwt()).called(1);
       verifyNever(repo.refreshToken(any));
-      expect(jwt.accessTokenExpirationDateTime, tokenExpirationDatetime);
+      expect(jwt!.accessTokenExpirationDateTime, tokenExpirationDatetime);
     });
 
     test('returns refresh jwt token because actual is expires', () async {
@@ -48,7 +57,7 @@ void main() {
       final jwt = await getOrRefreshTokenUseCase.getOrRefresh();
       verify(storage.getJwt()).called(2);
       verify(repo.refreshToken(any)).called(1);
-      expect(jwt.accessTokenExpirationDateTime, newExpirationDate);
+      expect(jwt!.accessTokenExpirationDateTime, newExpirationDate);
     });
 
     test('returns null because cannot get access_token and refresh token', () async {
@@ -75,7 +84,7 @@ void main() {
     test('returns success login result', () async {
       when(repo.login()).thenAnswer((_) async => Jwt(accessToken, refreshToken, tokenExpirationDatetime));
       final login = await loginUseCase.logIn();
-      expect(login.jwt.accessTokenExpirationDateTime, tokenExpirationDatetime);
+      expect(login.jwt!.accessTokenExpirationDateTime, tokenExpirationDatetime);
       expect(login.isSuccess, true);
     });
 
@@ -96,6 +105,7 @@ void main() {
     test('expects unauthenticated status because access token is expired', () async {
       final expired = DateTime.now().subtract(Duration(days: 1));
       when(storage.getJwt()).thenAnswer((_) async => Jwt(accessToken, refreshToken, expired));
+      when(repo.refreshToken(any)).thenAnswer((args) async => null);
       await cubit.checkIfJwtIsValid();
       verify(repo.refreshToken(any)).called(1);
       verify(storage.getJwt()).called(2);

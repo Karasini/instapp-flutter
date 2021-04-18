@@ -13,7 +13,7 @@ class JwtStorageRepository implements JwtStorageRepositoryAbstract {
 
   JwtStorageRepository(this._storage);
 
-  Future<Jwt> getJwt() async {
+  Future<Jwt?> getJwt() async {
 
     var results = await Future.wait([
       _storage.read(key: accessTokenKey),
@@ -22,7 +22,7 @@ class JwtStorageRepository implements JwtStorageRepositoryAbstract {
 
     if(results[2] == null) return null;
 
-    return new Jwt(results[0], results[1], DateTime.parse(results[2]));
+    return new Jwt(results[0], results[1], DateTime.parse(results[2]!));
   }
 
   Future<void> saveJwt(Jwt jwt) async {
@@ -30,7 +30,7 @@ class JwtStorageRepository implements JwtStorageRepositoryAbstract {
       _storage.write(key: accessTokenKey, value: jwt.accessToken),
       _storage.write(key: refreshTokenKey, value: jwt.refreshToken),
       _storage.write(key: expirationDateKey,
-          value: jwt.accessTokenExpirationDateTime.toIso8601String()),
+          value: jwt.accessTokenExpirationDateTime?.toIso8601String()),
     ]);
   }
 

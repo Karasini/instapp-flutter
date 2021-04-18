@@ -2,19 +2,19 @@ import 'dart:convert';
 
 class Jwt {
   /// The access token returned by the authorization server.
-  final String accessToken;
+  final String? accessToken;
 
   /// The refresh token returned by the authorization server.
-  final String refreshToken;
+  final String? refreshToken;
 
   /// Indicates when [accessToken] will expire.
   ///
   /// To ensure applications have continue to use valid access tokens, they
   /// will generally use the refresh token to get a new access token
   /// before it expires.
-  final DateTime accessTokenExpirationDateTime;
+  final DateTime? accessTokenExpirationDateTime;
 
-  String userId;
+  String? userId;
 
   Jwt(this.accessToken, this.refreshToken, this.accessTokenExpirationDateTime) {
     parseAccessToken();
@@ -26,10 +26,12 @@ class Jwt {
   }
 
   bool isExpired() {
-    return DateTime.now().isAfter(accessTokenExpirationDateTime);
+    return DateTime.now().isAfter(accessTokenExpirationDateTime!);
   }
 
-  Map<String, dynamic> parseJwtPayLoad(String token) {
+  Map<String, dynamic> parseJwtPayLoad(String? token) {
+    if(token == null) return Map<String, dynamic>();
+
     final parts = token.split('.');
     if (parts.length != 3) {
       throw Exception('invalid token');
