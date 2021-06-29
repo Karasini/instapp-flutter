@@ -2,14 +2,14 @@
   "openId": {
     "clientId": "api_client",
     "redirectUrl": "pl.instapp:/oauthredirect",
-    "discoveryUrl": "https://api.instapp.pl/.well-known/openid-configuration",
+    "discoveryUrl": "https://instapp.pl/.well-known/openid-configuration",
     "scopes": [
       "openid",
       "profile",
       "offline_access",
       "IdentityServerApi"
     ],
-    "authorizeUrl": "https://api.instapp.pl/connect/authorize",
-    "tokenUrl": "https://api.instapp.pl/connect/token"
+    "authorizeUrl": "https://instapp.pl/connect/authorize",
+    "tokenUrl": "https://instapp.pl/connect/token"
   }
 }
